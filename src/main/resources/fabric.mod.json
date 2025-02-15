@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "end_remastered_dimension_fix",
+  "version": "${version}",
+  "name": "End Remastered Dimension Fix",
+  "description": "Allows vanilla Eyes of Ender to be used on End Portal Frames within the End. Great for using End Remastered with mods like Dungeons and Taverns.",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/end_remastered_dimension_fix/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.trueprotocol.end_remastered_dimension_fix.client.End_remastered_dimension_fixClient"
+    ],
+    "main": [
+      "me.trueprotocol.end_remastered_dimension_fix.End_remastered_dimension_fix"
+    ]
+  },
+  "mixins": [
+    "end_remastered_dimension_fix.mixins.json",
+    {
+      "config": "end_remastered_dimension_fix.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

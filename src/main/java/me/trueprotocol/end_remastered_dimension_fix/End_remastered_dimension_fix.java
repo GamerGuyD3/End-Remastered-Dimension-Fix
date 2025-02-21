@@ -8,7 +8,7 @@ import net.minecraft.block.pattern.BlockPatternBuilder;
 import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.predicate.block.BlockStatePredicate;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -24,21 +24,37 @@ public class End_remastered_dimension_fix implements ModInitializer {
 
     private static final Predicate<Object> hasEyePredicate = (property) ->  property.equals(true);
 
+    private static boolean isAncientPortalFrame(BlockState state) {
+        return Registries.BLOCK.getId(state.getBlock()).toString().equals("endrem:ancient_portal_frame");
+    }
+
     private static final BlockPattern portalPattern = BlockPatternBuilder.start()
             .aisle("?vvv?", ">???<", ">???<", ">???<", "?^^^?")
             .where('?', block -> true)
-            .where('v', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.END_PORTAL_FRAME)
-                    .with(Properties.HORIZONTAL_FACING, dir -> dir == Direction.SOUTH)
-                    .with(EndPortalFrameBlock.EYE, hasEyePredicate)))
-            .where('^', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.END_PORTAL_FRAME)
-                    .with(Properties.HORIZONTAL_FACING, dir -> dir == Direction.NORTH)
-                    .with(EndPortalFrameBlock.EYE, hasEyePredicate)))
-            .where('>', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.END_PORTAL_FRAME)
-                    .with(Properties.HORIZONTAL_FACING, dir -> dir == Direction.WEST)
-                    .with(EndPortalFrameBlock.EYE, hasEyePredicate)))
-            .where('<', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.END_PORTAL_FRAME)
-                    .with(Properties.HORIZONTAL_FACING, dir -> dir == Direction.EAST)
-                    .with(EndPortalFrameBlock.EYE, hasEyePredicate)))
+            .where('v', CachedBlockPosition.matchesBlockState(
+                    blockState -> ((blockState.isOf(Blocks.END_PORTAL_FRAME) &&
+                            blockState.get(EndPortalFrameBlock.EYE) != hasEyePredicate.test(blockState)) ||
+                            isAncientPortalFrame(blockState)) &&
+                            blockState.get(Properties.HORIZONTAL_FACING) == Direction.SOUTH
+            ))
+            .where('^', CachedBlockPosition.matchesBlockState(
+                    blockState -> ((blockState.isOf(Blocks.END_PORTAL_FRAME) &&
+                            blockState.get(EndPortalFrameBlock.EYE) != hasEyePredicate.test(blockState)) ||
+                            isAncientPortalFrame(blockState)) &&
+                            blockState.get(Properties.HORIZONTAL_FACING) == Direction.NORTH
+            ))
+            .where('>', CachedBlockPosition.matchesBlockState(
+                    blockState -> ((blockState.isOf(Blocks.END_PORTAL_FRAME) &&
+                            blockState.get(EndPortalFrameBlock.EYE) != hasEyePredicate.test(blockState)) ||
+                            isAncientPortalFrame(blockState)) &&
+                            blockState.get(Properties.HORIZONTAL_FACING) == Direction.WEST
+            ))
+            .where('<',  CachedBlockPosition.matchesBlockState(
+                    blockState -> ((blockState.isOf(Blocks.END_PORTAL_FRAME) &&
+                            blockState.get(EndPortalFrameBlock.EYE) != hasEyePredicate.test(blockState)) ||
+                            isAncientPortalFrame(blockState)) &&
+                            blockState.get(Properties.HORIZONTAL_FACING) == Direction.EAST
+            ))
             .build();
 
     @Override

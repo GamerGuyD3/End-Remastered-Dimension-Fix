@@ -7,22 +7,15 @@
   "authors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/end_remastered_dimension_fix/icon.png",
+  "icon": "assets.end_remastered_dimension_fix/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "me.trueprotocol.end_remastered_dimension_fix.client.End_remastered_dimension_fixClient"
-    ],
     "main": [
       "me.trueprotocol.end_remastered_dimension_fix.End_remastered_dimension_fix"
     ]
   },
   "mixins": [
-    "end_remastered_dimension_fix.mixins.json",
-    {
-      "config": "end_remastered_dimension_fix.client.mixins.json",
-      "environment": "client"
-    }
+    "end_remastered_dimension_fix.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
